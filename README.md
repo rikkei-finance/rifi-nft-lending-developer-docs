@@ -18,10 +18,10 @@ BSC Testnet: `0xe9D5B350b77D80f6CBe4D2638FA067FEDdB15Ec6`
 
 ## Contract Events
 
-### `Lent`
+### `NFTListRental`
 
 ```solidity
-    event Lent(
+    event NFTListRental(
         address indexed nftAddress,
         uint256 indexed tokenId,
         address indexed lenderAddress,
@@ -48,7 +48,7 @@ const lendingNFTContract = new web3.eth.Contract(LENDING_NFT_CONTRACT_ABI, LENDI
 // contract abi and address see above
 
 async function getContractEvent() {
-    const pastLentEvents = await lendingNFTContract.getPastEvents('Lent', {
+    const pastLentEvents = await lendingNFTContract.getPastEvents('NFTListRental', {
             filter: {
                 nftAddress: // your game nft 
             },
@@ -63,15 +63,16 @@ async function getContractEvent() {
 }
 
 ```
-### `Rented`
+### `RentalCompleted`
 
 ```solidity
-    event Rented(
+    event RentalCompleted(
         address indexed nftAddress,
         uint256 indexed tokenId,
         address indexed renterAddress,
         uint256 rentDuration,
         uint256 rentedAt,
+        uint256 price,
         uint256 createdAt
     )   
 ```
@@ -91,7 +92,7 @@ const lendingNFTContract = new web3.eth.Contract(LENDING_NFT_CONTRACT_ABI, LENDI
 // contract abi and address see above
 
 async function getContractEvent() {
-    const pastRentedEvents = await lendingNFTContract.getPastEvents('Rented', {
+    const pastRentedEvents = await lendingNFTContract.getPastEvents('RentalCompleted', {
             filter: {
                 nftAddress: // your game nft 
             },
@@ -107,10 +108,10 @@ async function getContractEvent() {
 
 ```
 
-### `LendingStopped`
+### `DelistRetal`
 
 ```solidity
-    event LendingStopped(
+    event DelistRetal(
         address indexed nftAddress,
         uint256 indexed tokenId,
         uint256 createdAt
@@ -129,7 +130,7 @@ const lendingNFTContract = new web3.eth.Contract(LENDING_NFT_CONTRACT_ABI, LENDI
 // contract abi and address see above
 
 async function getContractEvent() {
-    const pastStoppedEvents = await lendingNFTContract.getPastEvents('LendingStopped', {
+    const pastStoppedEvents = await lendingNFTContract.getPastEvents('DelistRetal', {
             filter: {
                 nftAddress: // your game nft 
             },
