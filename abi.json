@@ -17,7 +17,7 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "lenderAddress",
+				"name": "ownerAddress",
 				"type": "address"
 			},
 			{
@@ -47,7 +47,8 @@
 		],
 		"name": "NFTListRental",
 		"type": "event"
-	},{
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{

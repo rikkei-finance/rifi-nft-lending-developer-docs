@@ -24,7 +24,7 @@ BSC Testnet: `0xe9D5B350b77D80f6CBe4D2638FA067FEDdB15Ec6`
     event NFTListRental(
         address indexed nftAddress,
         uint256 indexed tokenId,
-        address indexed lenderAddress,
+        address indexed ownerAddress,
         uint256 minTime,
         uint256 maxTime,
         uint256 pricePerHour,
@@ -33,7 +33,7 @@ BSC Testnet: `0xe9D5B350b77D80f6CBe4D2638FA067FEDdB15Ec6`
 ```
 When the user list 1 nft goes to the market, they will receive this event, this event returns the parameters as
    - `tokenId` : id of nft
-   - `lenderAddress` : the wallet address of the person listed
+   - `ownerAddress` : the wallet address of the person listed
    - `minTime` : minimum rental time (in seconds)
    - `maxTime` : maximum rental time (in seconds)
    - `pricePerHour` : rental fee over 1 hour
@@ -57,7 +57,7 @@ async function getContractEvent() {
 		});
     for (let i = 0; i < pastLentEvents.length; i++) {
 			const event = pastLentEvents[i];
-			const { tokenId, lenderAddress, minTime, maxTime, pricePerHour } = event.returnValues;
+			const { tokenId, ownerAddress, minTime, maxTime, pricePerHour } = event.returnValues;
             // your logic code
 	}
 }
