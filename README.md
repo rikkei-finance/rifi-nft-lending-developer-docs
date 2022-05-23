@@ -27,7 +27,7 @@ BSC Testnet: `0xe9D5B350b77D80f6CBe4D2638FA067FEDdB15Ec6`
         address indexed ownerAddress,
         uint256 minTime,
         uint256 maxTime,
-        uint256 pricePerHour,
+        uint256 pricePerDay,
         uint256 createdAt
     )   
 ```
@@ -36,7 +36,7 @@ When the user list 1 nft goes to the market, they will receive this event, this 
    - `ownerAddress` : the wallet address of the person listed
    - `minTime` : minimum rental time (in seconds)
    - `maxTime` : maximum rental time (in seconds)
-   - `pricePerHour` : rental fee over 1 hour
+   - `pricePerDay` : rental fee over 1 day
 
 Sample code for get this event:
 
@@ -57,7 +57,7 @@ async function getContractEvent() {
 		});
     for (let i = 0; i < pastLentEvents.length; i++) {
 			const event = pastLentEvents[i];
-			const { tokenId, ownerAddress, minTime, maxTime, pricePerHour } = event.returnValues;
+			const { tokenId, ownerAddress, minTime, maxTime, pricePerDay } = event.returnValues;
             // your logic code
 	}
 }
@@ -114,6 +114,7 @@ async function getContractEvent() {
     event DelistRetal(
         address indexed nftAddress,
         uint256 indexed tokenId,
+        address indexed ownerAddress,
         uint256 createdAt
     )   
 ```

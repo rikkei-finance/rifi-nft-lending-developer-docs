@@ -35,7 +35,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "pricePerHour",
+				"name": "pricePerDay",
 				"type": "uint256"
 			},
 			{
@@ -111,6 +111,12 @@
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "ownerAddress",
+				"type": "address"
 			},
 			{
 				"indexed": false,
