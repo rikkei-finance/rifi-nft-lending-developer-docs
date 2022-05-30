@@ -4,7 +4,7 @@
 
 # RiFi NFT Rental Marketplace API
 
-When user lists, delists and rents nft on NFT Rental Marketplace, smartcontract fires 3 corresponding events, game server needs to listen to these 3 events to process them appropriately for the game. You can use library [web3.js](https://github.com/ChainSafe/web3.js) for listing these events. In this document, we have some sample code using [web3.js](https://github.com/ChainSafe/web3.js)
+When an asset owner lists or de-lists or there is a rental transaction completed (i.e. event) on the NFT Rental Marketplace, smartcontract triggers an event emitter for the associated event. Game platform servers need to listen and handle the event emitter appropriately. You can use library [web3.js](https://github.com/ChainSafe/web3.js) for listing these events. In this document, we have some sample code using [web3.js](https://github.com/ChainSafe/web3.js)
 
 ## Contract overview
 
@@ -14,7 +14,7 @@ Please see file `abi.json`
 
 ### Address
 
-BSC Testnet: `0xe9D5B350b77D80f6CBe4D2638FA067FEDdB15Ec6`
+BSC Testnet: `0x07ac5567bcE0745f2B2c9cC72753E94Da5207708`
 
 ## Contract Events
 
@@ -31,9 +31,9 @@ BSC Testnet: `0xe9D5B350b77D80f6CBe4D2638FA067FEDdB15Ec6`
         uint256 createdAt
     )   
 ```
-When the user list 1 nft goes to the market, they will receive this event, this event returns the parameters as
+When the asset owner lists the NFT on the marketplace, the event emitter returns these parameters:
    - `tokenId` : id of nft
-   - `ownerAddress` : the wallet address of the person listed
+   - `ownerAddress` : the wallet address of the asset owner
    - `minTime` : minimum rental time (in seconds)
    - `maxTime` : maximum rental time (in seconds)
    - `pricePerDay` : rental fee over 1 day
@@ -76,9 +76,9 @@ async function getContractEvent() {
         uint256 createdAt
     )   
 ```
-When a user rents nft to the market, he will receive this event, this event returns the parameters as
+When a marketplace user (renter) rents the NFT from the marketplace, the event emitter returns these parameters:
    - `tokenId` : id of nft
-   - `renterAddress` : tenant's wallet address
+   - `renterAddress` : renter's wallet address
    - `rentDuration` : rental time (in seconds)
    - `rentedAt` : transaction time (timestamp)
 
@@ -108,6 +108,46 @@ async function getContractEvent() {
 
 ```
 
+### `RentalReturn`
+
+```solidity
+    event RentalReturn(
+        address indexed nftAddress,
+        uint256 indexed tokenId,
+        address indexed ownerAddress,
+        address renterAddress,
+        uint256 createdAt
+    )  
+```
+When the renter return the NFT to the marketplace, the event emitter returns these parameters:
+   - `tokenId` : id of nft
+
+Sample code for get this event:
+
+```js
+// In Node.js
+const Web3 = require('web3');
+const web3 = new Web3('http://localhost:8546');
+const lendingNFTContract = new web3.eth.Contract(LENDING_NFT_CONTRACT_ABI, LENDING_NFT_CONTRACT_ADDRESS);
+// contract abi and address see above
+
+async function getContractEvent() {
+    const pastReturnEvents = await lendingNFTContract.getPastEvents('RentalReturn', {
+            filter: {
+                nftAddress: // your game nft 
+            },
+			fromBlock: blockNumber,
+			toBlock: lastBlockNumber
+		});
+    for (let i = 0; i < pastRentedEvents.length; i++) {
+			const event = pastRentedEvents[i];
+			const { tokenId } = event.returnValues;
+            // your logic code
+	}
+}
+
+```
+
 ### `DelistRetal`
 
 ```solidity
@@ -118,7 +158,7 @@ async function getContractEvent() {
         uint256 createdAt
     )   
 ```
-When the user cancels the nft rental, he will receive this event, this event returns the parameters as
+When the asset owner de-lists the NFT from the marketplace, the event emitter returns these parameters:
    - `tokenId` : id of nft
 
 Sample code for get this event:
