@@ -148,10 +148,10 @@ async function getContractEvent() {
 
 ```
 
-### `DelistRetal`
+### `DelistRental`
 
 ```solidity
-    event DelistRetal(
+    event DelistRental(
         address indexed nftAddress,
         uint256 indexed tokenId,
         address indexed ownerAddress,
@@ -171,7 +171,7 @@ const lendingNFTContract = new web3.eth.Contract(LENDING_NFT_CONTRACT_ABI, LENDI
 // contract abi and address see above
 
 async function getContractEvent() {
-    const pastStoppedEvents = await lendingNFTContract.getPastEvents('DelistRetal', {
+    const pastStoppedEvents = await lendingNFTContract.getPastEvents('DelistRental', {
             filter: {
                 nftAddress: // your game nft 
             },
